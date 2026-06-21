@@ -65,3 +65,24 @@ class ParquetOhlcvStore:
     def read_ohlcv(self, *, symbol: str, start: datetime, end: datetime) -> pl.DataFrame:
         files = sorted((self.dataset_path / f"symbol={symbol}").glob("date=*/data.parquet"))
         return query_ohlcv_parquet_files(files, symbol=symbol, start=start, end=end)
+
+    def list_datasets(self) -> list[str]:
+        if not self.root.exists():
+            return []
+
+        datasets: list[str] = []
+        for dataset_path in self.root.iterdir():
+            if dataset_path.is_dir() and any(dataset_path.glob("symbol=*/date=*/data.parquet")):
+                datasets.append(dataset_path.name)
+        return sorted(datasets)
+
+    def list_symbols(self, *, dataset: str = "ohlcv") -> list[str]:
+        dataset_path = self.root / dataset
+        if not dataset_path.exists():
+            return []
+
+        symbols: list[str] = []
+        for symbol_path in dataset_path.glob("symbol=*"):
+            if symbol_path.is_dir() and any(symbol_path.glob("date=*/data.parquet")):
+                symbols.append(symbol_path.name.removeprefix("symbol="))
+        return sorted(symbols)

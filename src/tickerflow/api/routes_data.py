@@ -6,13 +6,29 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import ValidationError
 
-from tickerflow.api.schemas import OhlcvMetadata, OhlcvRecord, OhlcvResponse
+from tickerflow.api.schemas import (
+    DatasetsResponse,
+    OhlcvMetadata,
+    OhlcvRecord,
+    OhlcvResponse,
+    SymbolsResponse,
+)
 from tickerflow.query.filters import OhlcvQueryFilter
 from tickerflow.query.market_data_query import OhlcvQueryService
 
 
 def build_data_router(query_service: OhlcvQueryService) -> APIRouter:
     router = APIRouter()
+
+    @router.get("/datasets", response_model=DatasetsResponse)
+    def get_datasets() -> DatasetsResponse:
+        return DatasetsResponse(datasets=query_service.list_datasets())
+
+    @router.get("/symbols", response_model=SymbolsResponse)
+    def get_symbols(
+        dataset: Annotated[str, Query(min_length=1, pattern=r"^[a-z][a-z0-9_-]{0,63}$")] = "ohlcv",
+    ) -> SymbolsResponse:
+        return SymbolsResponse(dataset=dataset, symbols=query_service.list_symbols(dataset=dataset))
 
     @router.get("/ohlcv", response_model=OhlcvResponse)
     def get_ohlcv(

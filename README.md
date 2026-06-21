@@ -55,7 +55,8 @@ TickerFlow currently implements the first OHLCV backend slice:
 - Validate dirty rows and return a structured quality report instead of silently dropping data.
 - Store valid rows as partitioned local Parquet under `ohlcv/symbol=<SYMBOL>/date=<YYYY-MM-DD>/data.parquet`.
 - Query OHLCV rows by symbol and half-open UTC date range `[start, end)`.
-- Expose `/health` and `/ohlcv` through FastAPI.
+- Discover available local datasets and symbols from Parquet partitions.
+- Expose `/health`, `/datasets`, `/symbols`, and `/ohlcv` through FastAPI.
 
 ### OHLCV schema assumptions
 
@@ -102,4 +103,11 @@ Example query after writing Parquet data into the configured data directory:
 curl "http://127.0.0.1:8000/ohlcv?symbol=AAPL&start=2024-01-02T00:00:00Z&end=2024-01-04T00:00:00Z"
 ```
 
-By default, the API reads from `.market_data`. Set `MARKET_DATA_BACKEND_DATA_DIR` to point at another local Parquet root.
+Catalog endpoints:
+
+```bash
+curl "http://127.0.0.1:8000/datasets"
+curl "http://127.0.0.1:8000/symbols?dataset=ohlcv"
+```
+
+By default, the API reads from `.tickerflow`. Set `TICKERFLOW_DATA_DIR` to point at another local Parquet root.

@@ -22,6 +22,12 @@ class OhlcvQueryService:
     def __init__(self, store: ParquetOhlcvStore) -> None:
         self._store = store
 
+    def list_datasets(self) -> list[str]:
+        return self._store.list_datasets()
+
+    def list_symbols(self, *, dataset: str = "ohlcv") -> list[str]:
+        return self._store.list_symbols(dataset=dataset)
+
     def get_ohlcv(self, query_filter: OhlcvQueryFilter) -> OhlcvQueryResult:
         frame = self._store.read_ohlcv(
             symbol=query_filter.symbol,

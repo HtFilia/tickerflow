@@ -40,3 +40,19 @@ def test_parquet_store_is_idempotent_and_query_filters_by_symbol_and_range(
         (datetime(2024, 1, 2, 14, 30, tzinfo=UTC), "AAPL", 101.0),
         (datetime(2024, 1, 3, 14, 30, tzinfo=UTC), "AAPL", 102.0),
     ]
+
+
+def test_parquet_store_lists_datasets_and_symbols_from_partitions(tmp_path: Path) -> None:
+    ingestion = load_ohlcv_csv(
+        FIXTURES / "ohlcv_clean.csv",
+        OhlcvCsvConfig(source="synthetic_clean"),
+    )
+    store = ParquetOhlcvStore(tmp_path)
+
+    assert store.list_datasets() == []
+    assert store.list_symbols(dataset="ohlcv") == []
+
+    store.write_ohlcv(ingestion.frame)
+
+    assert store.list_datasets() == ["ohlcv"]
+    assert store.list_symbols(dataset="ohlcv") == ["AAPL", "MSFT"]
