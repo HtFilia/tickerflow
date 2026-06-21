@@ -12,7 +12,7 @@ from tickerflow.storage.parquet_store import ParquetOhlcvStore
 
 
 def create_app(data_root: Path | None = None) -> FastAPI:
-    root = data_root or Path(os.environ.get("MARKET_DATA_BACKEND_DATA_DIR", ".market_data"))
+    root = data_root or Path(os.environ.get("TICKERFLOW_DATA_DIR", ".tickerflow"))
     store = ParquetOhlcvStore(root)
     query_service = OhlcvQueryService(store)
 

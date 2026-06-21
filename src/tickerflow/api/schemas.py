@@ -10,6 +10,15 @@ class HealthResponse(BaseModel):
     status: Literal["ok"]
 
 
+class DatasetsResponse(BaseModel):
+    datasets: list[str]
+
+
+class SymbolsResponse(BaseModel):
+    dataset: str
+    symbols: list[str]
+
+
 class OhlcvRecord(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
