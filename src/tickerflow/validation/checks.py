@@ -6,12 +6,12 @@ from typing import Any
 
 import polars as pl
 
-from market_data_backend.core.schemas import (
+from tickerflow.core.schemas import (
     OHLCV_COLUMNS,
     OHLCV_NUMERIC_COLUMNS,
     OHLCV_PRICE_COLUMNS,
 )
-from market_data_backend.validation.report import ValidationIssue, ValidationReport
+from tickerflow.validation.report import ValidationIssue, ValidationReport
 
 _ISSUE_PREFIX = "_issue_"
 

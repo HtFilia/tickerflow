@@ -4,8 +4,8 @@ from dataclasses import dataclass
 
 import polars as pl
 
-from market_data_backend.query.filters import OhlcvQueryFilter
-from market_data_backend.storage.parquet_store import ParquetOhlcvStore
+from tickerflow.query.filters import OhlcvQueryFilter
+from tickerflow.storage.parquet_store import ParquetOhlcvStore
 
 
 @dataclass(frozen=True)

@@ -1,6 +1,6 @@
-# market-data-backend
+# TickerFlow
 
-A Python backend for market-data ingestion, validation, local storage, querying, and bar construction.
+TickerFlow is a Python backend that turns local market CSVs into validated, queryable API data.
 
 ## Why this project exists
 
@@ -48,7 +48,7 @@ A reviewer should see that you can design a real backend around financial time-s
 
 ## Current vertical slice
 
-This repository currently implements the first OHLCV backend slice:
+TickerFlow currently implements the first OHLCV backend slice:
 
 - Load local OHLCV CSV files with typed ingestion configuration.
 - Normalize timestamps to timezone-aware UTC at microsecond precision.
@@ -93,7 +93,7 @@ uv run pytest
 Run the API locally:
 
 ```bash
-uv run uvicorn market_data_backend.api.main:app --reload
+uv run uvicorn tickerflow.api.main:app --reload
 ```
 
 Example query after writing Parquet data into the configured data directory:

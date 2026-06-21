@@ -6,9 +6,9 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import ValidationError
 
-from market_data_backend.api.schemas import OhlcvMetadata, OhlcvRecord, OhlcvResponse
-from market_data_backend.query.filters import OhlcvQueryFilter
-from market_data_backend.query.market_data_query import OhlcvQueryService
+from tickerflow.api.schemas import OhlcvMetadata, OhlcvRecord, OhlcvResponse
+from tickerflow.query.filters import OhlcvQueryFilter
+from tickerflow.query.market_data_query import OhlcvQueryService
 
 
 def build_data_router(query_service: OhlcvQueryService) -> APIRouter:

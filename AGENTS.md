@@ -24,7 +24,7 @@ Before changing code, read these files in order:
 ## Expected layout
 
 ```text
-src/market_data_backend/
+src/tickerflow/
   api/              # FastAPI app and routes
   core/             # domain entities and time-series rules
   ingestion/        # source adapters and normalization
@@ -60,7 +60,7 @@ uv run pytest
 API smoke test once implemented:
 
 ```bash
-uv run uvicorn market_data_backend.api.main:app --reload
+uv run uvicorn tickerflow.api.main:app --reload
 ```
 
 ## Engineering rules

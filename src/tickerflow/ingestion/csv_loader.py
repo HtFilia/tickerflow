@@ -5,10 +5,10 @@ from pathlib import Path
 
 import polars as pl
 
-from market_data_backend.ingestion.normalizer import normalize_ohlcv_csv_frame
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
-from market_data_backend.validation.checks import validate_ohlcv_frame
-from market_data_backend.validation.report import ValidationReport
+from tickerflow.ingestion.normalizer import normalize_ohlcv_csv_frame
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.validation.checks import validate_ohlcv_frame
+from tickerflow.validation.report import ValidationReport
 
 
 @dataclass(frozen=True)

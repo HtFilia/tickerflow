@@ -6,9 +6,9 @@ from pathlib import Path
 
 import polars as pl
 
-from market_data_backend.core.schemas import OHLCV_COLUMNS, OHLCV_KEY_COLUMNS, empty_ohlcv_frame
-from market_data_backend.storage.duckdb_query import query_ohlcv_parquet_files
-from market_data_backend.storage.partitions import ohlcv_partition_file
+from tickerflow.core.schemas import OHLCV_COLUMNS, OHLCV_KEY_COLUMNS, empty_ohlcv_frame
+from tickerflow.storage.duckdb_query import query_ohlcv_parquet_files
+from tickerflow.storage.partitions import ohlcv_partition_file
 
 
 @dataclass(frozen=True)
