@@ -92,3 +92,60 @@ def test_app_reads_data_root_from_tickerflow_env_var(
 
     assert response.status_code == 200
     assert response.json() == {"datasets": ["ohlcv"]}
+
+
+def test_time_bars_endpoint_returns_half_open_hourly_bars(tmp_path: Path) -> None:
+    ingestion = load_ohlcv_csv(
+        FIXTURES / "ohlcv_intraday.csv",
+        OhlcvCsvConfig(source="synthetic_intraday"),
+    )
+    ParquetOhlcvStore(tmp_path).write_ohlcv(ingestion.frame)
+
+    response = asyncio.run(
+        _get(
+            create_app(data_root=tmp_path),
+            "/bars/time",
+            params={
+                "symbol": "AAPL",
+                "start": "2024-01-02T14:00:00Z",
+                "end": "2024-01-02T16:00:00Z",
+                "interval": "1h",
+            },
+        )
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["metadata"] == {
+        "symbol": "AAPL",
+        "start": "2024-01-02T14:00:00Z",
+        "end": "2024-01-02T16:00:00Z",
+        "interval": "1h",
+        "row_count": 2,
+    }
+    assert payload["data"] == [
+        {
+            "bar_start_utc": "2024-01-02T14:00:00Z",
+            "bar_end_utc": "2024-01-02T15:00:00Z",
+            "symbol": "AAPL",
+            "open": 100.0,
+            "high": 102.0,
+            "low": 99.0,
+            "close": 101.0,
+            "volume": 100.0,
+            "input_rows": 1,
+            "source": "time_bar:1h",
+        },
+        {
+            "bar_start_utc": "2024-01-02T15:00:00Z",
+            "bar_end_utc": "2024-01-02T16:00:00Z",
+            "symbol": "AAPL",
+            "open": 101.0,
+            "high": 105.0,
+            "low": 100.0,
+            "close": 104.0,
+            "volume": 500.0,
+            "input_rows": 2,
+            "source": "time_bar:1h",
+        },
+    ]

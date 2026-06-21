@@ -31,6 +31,11 @@ List tempting work that should not be done in this task.
 - `uv run mypy src tests`
 - `uv run pytest`
 
+## Recruiter demo requirements
+- Update `docs/RECRUITER_DEMO_PLAN.md` when the feature changes the public story.
+- Add or refresh screenshots under `docs/assets/screenshots/` when there is UI, Swagger/OpenAPI output, charts, or another visual artifact worth showing.
+- Keep demo steps deterministic and based on committed fixtures only.
+
 ## Risks
 - Numerical approximation risk:
 - API compatibility risk:
@@ -42,6 +47,7 @@ List tempting work that should not be done in this task.
 - Tests cover nominal cases, edge cases, and at least one regression or benchmark invariant.
 - All documented checks pass.
 - README/docs are updated when behavior changes.
+- Recruiter-facing changes include a screenshot plan or demo plan, and actual screenshots when UI or visual output exists.
 ```
 
 ## Planning rules
@@ -51,3 +57,4 @@ List tempting work that should not be done in this task.
 - Do not implement optional milestones unless explicitly requested.
 - When requirements are ambiguous, make a conservative assumption and record it in the plan.
 - When changing numerical code, define the reference value or invariant before writing the implementation.
+- For recruiter-facing work, plan the screenshot/demo path before implementation so the repository communicates value quickly to non-specialists.
