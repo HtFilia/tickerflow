@@ -6,10 +6,10 @@ from pathlib import Path
 import httpx
 from fastapi import FastAPI
 
-from market_data_backend.api.main import create_app
-from market_data_backend.ingestion.csv_loader import load_ohlcv_csv
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
-from market_data_backend.storage.parquet_store import ParquetOhlcvStore
+from tickerflow.api.main import create_app
+from tickerflow.ingestion.csv_loader import load_ohlcv_csv
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.storage.parquet_store import ParquetOhlcvStore
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 

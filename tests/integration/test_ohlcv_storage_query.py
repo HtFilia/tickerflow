@@ -3,11 +3,11 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from pathlib import Path
 
-from market_data_backend.ingestion.csv_loader import load_ohlcv_csv
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
-from market_data_backend.query.filters import OhlcvQueryFilter
-from market_data_backend.query.market_data_query import OhlcvQueryService
-from market_data_backend.storage.parquet_store import ParquetOhlcvStore
+from tickerflow.ingestion.csv_loader import load_ohlcv_csv
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.query.filters import OhlcvQueryFilter
+from tickerflow.query.market_data_query import OhlcvQueryService
+from tickerflow.storage.parquet_store import ParquetOhlcvStore
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 

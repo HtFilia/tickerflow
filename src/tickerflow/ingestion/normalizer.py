@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import polars as pl
 
-from market_data_backend.core.schemas import OHLCV_COLUMNS
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.core.schemas import OHLCV_COLUMNS
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
 
 
 def normalize_ohlcv_csv_frame(raw_frame: pl.DataFrame, config: OhlcvCsvConfig) -> pl.DataFrame:

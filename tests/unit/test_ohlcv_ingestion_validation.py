@@ -5,8 +5,8 @@ from pathlib import Path
 
 import polars as pl
 
-from market_data_backend.ingestion.csv_loader import load_ohlcv_csv
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.ingestion.csv_loader import load_ohlcv_csv
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
 

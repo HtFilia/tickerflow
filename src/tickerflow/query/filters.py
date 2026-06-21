@@ -5,8 +5,8 @@ from typing import Self
 
 from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
-from market_data_backend.core.identifiers import is_valid_symbol, normalize_symbol
-from market_data_backend.core.time import ensure_utc
+from tickerflow.core.identifiers import is_valid_symbol, normalize_symbol
+from tickerflow.core.time import ensure_utc
 
 
 class OhlcvQueryFilter(BaseModel):

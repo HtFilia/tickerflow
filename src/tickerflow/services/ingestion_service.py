@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from market_data_backend.ingestion.csv_loader import OhlcvLoadResult, load_ohlcv_csv
-from market_data_backend.ingestion.source_config import OhlcvCsvConfig
-from market_data_backend.storage.parquet_store import OhlcvWriteResult, ParquetOhlcvStore
+from tickerflow.ingestion.csv_loader import OhlcvLoadResult, load_ohlcv_csv
+from tickerflow.ingestion.source_config import OhlcvCsvConfig
+from tickerflow.storage.parquet_store import OhlcvWriteResult, ParquetOhlcvStore
 
 
 @dataclass(frozen=True)

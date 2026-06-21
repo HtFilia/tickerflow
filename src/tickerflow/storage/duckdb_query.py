@@ -8,7 +8,7 @@ from typing import cast
 import duckdb
 import polars as pl
 
-from market_data_backend.core.schemas import OHLCV_COLUMNS, empty_ohlcv_frame
+from tickerflow.core.schemas import OHLCV_COLUMNS, empty_ohlcv_frame
 
 
 def query_ohlcv_parquet_files(
