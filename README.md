@@ -56,7 +56,9 @@ TickerFlow currently implements the first OHLCV backend slice:
 - Store valid rows as partitioned local Parquet under `ohlcv/symbol=<SYMBOL>/date=<YYYY-MM-DD>/data.parquet`.
 - Query OHLCV rows by symbol and half-open UTC date range `[start, end)`.
 - Discover available local datasets and symbols from Parquet partitions.
-- Expose `/health`, `/datasets`, `/symbols`, and `/ohlcv` through FastAPI.
+- Build hourly or daily time bars with explicit half-open boundaries.
+- Expose `/health`, `/datasets`, `/symbols`, `/ohlcv`, and `/bars/time` through FastAPI.
+- Provide a recruiter demo plan in `docs/RECRUITER_DEMO_PLAN.md`.
 
 ### OHLCV schema assumptions
 
@@ -108,6 +110,12 @@ Catalog endpoints:
 ```bash
 curl "http://127.0.0.1:8000/datasets"
 curl "http://127.0.0.1:8000/symbols?dataset=ohlcv"
+```
+
+Time-bar endpoint:
+
+```bash
+curl "http://127.0.0.1:8000/bars/time?symbol=AAPL&start=2024-01-02T14:00:00Z&end=2024-01-02T16:00:00Z&interval=1h"
 ```
 
 By default, the API reads from `.tickerflow`. Set `TICKERFLOW_DATA_DIR` to point at another local Parquet root.

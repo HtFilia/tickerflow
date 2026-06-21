@@ -5,6 +5,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
+from tickerflow.bars.time_bars import TimeBarInterval
+
 
 class HealthResponse(BaseModel):
     status: Literal["ok"]
@@ -42,3 +44,31 @@ class OhlcvMetadata(BaseModel):
 class OhlcvResponse(BaseModel):
     metadata: OhlcvMetadata
     data: list[OhlcvRecord]
+
+
+class TimeBarRecord(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    bar_start_utc: datetime
+    bar_end_utc: datetime
+    symbol: str
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: float
+    input_rows: int
+    source: str
+
+
+class TimeBarMetadata(BaseModel):
+    symbol: str
+    start: datetime
+    end: datetime
+    interval: TimeBarInterval
+    row_count: int
+
+
+class TimeBarsResponse(BaseModel):
+    metadata: TimeBarMetadata
+    data: list[TimeBarRecord]
