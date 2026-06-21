@@ -7,5 +7,7 @@
 __pycache__/
 *.py[cod]
 .market_data/
+.tickerflow/
+.tickerflow-demo/
 dist/
 build/

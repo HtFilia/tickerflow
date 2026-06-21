@@ -6,6 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict
 
 from tickerflow.bars.time_bars import TimeBarInterval
+from tickerflow.validation.report import ValidationReport
 
 
 class HealthResponse(BaseModel):
@@ -72,3 +73,17 @@ class TimeBarMetadata(BaseModel):
 class TimeBarsResponse(BaseModel):
     metadata: TimeBarMetadata
     data: list[TimeBarRecord]
+
+
+class OhlcvWriteSummary(BaseModel):
+    input_rows: int
+    stored_rows: int
+    partitions_written: int
+
+
+class DemoSeedResponse(BaseModel):
+    dataset: str
+    symbols: list[str]
+    clean_report: ValidationReport
+    dirty_report: ValidationReport
+    write_result: OhlcvWriteSummary

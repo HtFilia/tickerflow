@@ -58,7 +58,7 @@ TickerFlow currently implements the first OHLCV backend slice:
 - Discover available local datasets and symbols from Parquet partitions.
 - Build hourly or daily time bars with explicit half-open boundaries.
 - Expose `/health`, `/datasets`, `/symbols`, `/ohlcv`, and `/bars/time` through FastAPI.
-- Provide a recruiter demo plan in `docs/RECRUITER_DEMO_PLAN.md`.
+- Provide a browser demo at `/demo`, with recruiter screenshots under `docs/assets/screenshots/`.
 
 ### OHLCV schema assumptions
 
@@ -99,6 +99,12 @@ Run the API locally:
 uv run uvicorn tickerflow.api.main:app --reload
 ```
 
+Open the recruiter demo UI:
+
+```bash
+open http://127.0.0.1:8000/demo
+```
+
 Example query after writing Parquet data into the configured data directory:
 
 ```bash
@@ -119,3 +125,10 @@ curl "http://127.0.0.1:8000/bars/time?symbol=AAPL&start=2024-01-02T14:00:00Z&end
 ```
 
 By default, the API reads from `.tickerflow`. Set `TICKERFLOW_DATA_DIR` to point at another local Parquet root.
+
+### Recruiter screenshots
+
+- `docs/assets/screenshots/tickerflow-demo-desktop.png`
+- `docs/assets/screenshots/tickerflow-demo-mobile.png`
+
+The screenshot plan and demo script live in `docs/RECRUITER_DEMO_PLAN.md`.

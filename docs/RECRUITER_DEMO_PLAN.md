@@ -12,12 +12,15 @@ Recruiters and hiring managers should understand TickerFlow without knowing fina
 4. Query `/datasets` and `/symbols` to show local catalog discovery.
 5. Query `/ohlcv` for a symbol/date range.
 6. Query `/bars/time` with `interval=1h` to show feature-ready bar construction.
-7. Open FastAPI docs at `/docs` when running locally and capture screenshots.
+7. Open `/demo` to show the recruiter-facing UI.
+8. Open FastAPI docs at `/docs` when running locally if API-level screenshots are needed.
 
 ## Screenshot checklist
 
 Store future images in `docs/assets/screenshots/`.
 
+- `tickerflow-demo-desktop.png`: desktop view of `/demo`.
+- `tickerflow-demo-mobile.png`: mobile view of `/demo`.
 - `api-health.png`: `/health` response or Swagger operation.
 - `catalog-endpoints.png`: `/datasets` and `/symbols` responses.
 - `ohlcv-query.png`: `/ohlcv` response for `AAPL`.
@@ -30,4 +33,4 @@ Use only committed fixtures in `tests/fixtures/`. Do not fetch live market data 
 
 ## Current limitation
 
-TickerFlow does not yet include a UI dashboard. Screenshots should focus on API docs and deterministic API responses until a visual surface exists.
+TickerFlow now includes a lightweight `/demo` UI. It is intentionally a static FastAPI-served demo surface, not a full dashboard application.
