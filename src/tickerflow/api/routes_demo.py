@@ -168,7 +168,7 @@ def _render_demo_page() -> str:
   <main class="shell" id="demo-app">
     <section class="topbar">
       <div>
-        <div class="panel-label">Recruiter demo</div>
+        <div class="panel-label">Market-data demo</div>
         <h1>TickerFlow</h1>
         <p class="subtitle">
           Local CSV market data becomes validated Parquet storage, searchable API rows,

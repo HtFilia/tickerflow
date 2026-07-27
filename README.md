@@ -1,10 +1,15 @@
 # TickerFlow
 
+[![CI](https://github.com/HtFilia/tickerflow/actions/workflows/ci.yml/badge.svg)](https://github.com/HtFilia/tickerflow/actions/workflows/ci.yml)
+
 TickerFlow is a Python backend that turns local market CSVs into validated, queryable API data.
 
-## Why this project exists
+## Use case
 
-Many quant projects start with a notebook and a CSV. This repository is designed to show a more professional approach: explicit schemas, deterministic ingestion, validation reports, storage abstractions, query APIs, and tests.
+Market-data pipelines need deterministic ingestion, explicit schemas, visible
+quality decisions, durable storage, and stable query boundaries. TickerFlow
+provides that local workflow for financial time series, from CSV normalization
+through Parquet storage and feature-ready time bars.
 
 ## Core capabilities
 
@@ -14,9 +19,9 @@ Many quant projects start with a notebook and a CSV. This repository is designed
 - Store normalized data as partitioned Parquet.
 - Query symbol/date/frequency slices through Python services and FastAPI endpoints.
 - Build time bars, tick bars, volume bars, and dollar bars.
-- Benchmark Pandas/Polars/DuckDB style operations where useful.
+- Use Polars for tabular transformations and DuckDB for local analytical queries.
 
-## Suggested stack
+## Technology
 
 - Python 3.12+
 - Polars for DataFrame transformations.
@@ -42,10 +47,6 @@ Many quant projects start with a notebook and a CSV. This repository is designed
 6. Implement time bars and volume bars.
 7. Add benchmarks and quality-report examples.
 
-## Success signal for GitHub
-
-A reviewer should see that you can design a real backend around financial time-series data: schemas, validation, storage, APIs, tests, and clear trade-offs.
-
 ## Current vertical slice
 
 TickerFlow currently implements the first OHLCV backend slice:
@@ -58,7 +59,7 @@ TickerFlow currently implements the first OHLCV backend slice:
 - Discover available local datasets and symbols from Parquet partitions.
 - Build hourly or daily time bars with explicit half-open boundaries.
 - Expose `/health`, `/datasets`, `/symbols`, `/ohlcv`, and `/bars/time` through FastAPI.
-- Provide a browser demo at `/demo`, with recruiter screenshots under `docs/assets/screenshots/`.
+- Provide a browser market-data demo at `/demo`.
 
 ### OHLCV schema assumptions
 
@@ -99,7 +100,7 @@ Run the API locally:
 uv run uvicorn tickerflow.api.main:app --reload
 ```
 
-Open the recruiter demo UI:
+Open the market-data demo UI:
 
 ```bash
 open http://127.0.0.1:8000/demo
@@ -126,9 +127,4 @@ curl "http://127.0.0.1:8000/bars/time?symbol=AAPL&start=2024-01-02T14:00:00Z&end
 
 By default, the API reads from `.tickerflow`. Set `TICKERFLOW_DATA_DIR` to point at another local Parquet root.
 
-### Recruiter screenshots
-
-- `docs/assets/screenshots/tickerflow-demo-desktop.png`
-- `docs/assets/screenshots/tickerflow-demo-mobile.png`
-
-The screenshot plan and demo script live in `docs/RECRUITER_DEMO_PLAN.md`.
+The deterministic demo script lives in `docs/DEMO.md`.
