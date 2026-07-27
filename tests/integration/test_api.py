@@ -164,7 +164,7 @@ def test_time_bars_endpoint_returns_half_open_hourly_bars(tmp_path: Path) -> Non
     ]
 
 
-def test_demo_page_serves_recruiter_ui_shell(tmp_path: Path) -> None:
+def test_demo_page_serves_market_data_ui_shell(tmp_path: Path) -> None:
     response = asyncio.run(_get(create_app(data_root=tmp_path), "/demo"))
 
     assert response.status_code == 200

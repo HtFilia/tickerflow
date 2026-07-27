@@ -9,7 +9,6 @@ Create a Python backend that ingests local market-data files, validates and norm
 - Quant researchers who need reproducible local datasets.
 - Quant developers building internal market-data tools.
 - Data engineers working with financial time series.
-- Technical recruiters evaluating backend/data-engineering maturity.
 
 ## In scope
 
