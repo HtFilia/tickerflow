@@ -1,0 +1,4 @@
+timestamp,symbol,open,high,low,close,volume
+2024-01-02T14:30:00Z,TEST,100,90,110,105,10
+2024-01-02T14:31:00Z,TEST,inf,inf,1,inf,10
+2024-01-02T14:32:00Z,TEST,100,110,90,100,inf

@@ -56,3 +56,21 @@ def test_parquet_store_lists_datasets_and_symbols_from_partitions(tmp_path: Path
 
     assert store.list_datasets() == ["ohlcv"]
     assert store.list_symbols(dataset="ohlcv") == ["AAPL", "MSFT"]
+
+
+def test_invalid_rows_never_reach_store_or_query(tmp_path: Path) -> None:
+    from tickerflow.services.ingestion_service import ingest_ohlcv_csv_to_store
+
+    store = ParquetOhlcvStore(tmp_path / "data")
+    result = ingest_ohlcv_csv_to_store(FIXTURES / "ohlcv_invalid.csv", store)
+    assert result.load_result.report.quarantined_rows == 3
+    assert result.write_result.input_rows == 0
+    assert store.list_symbols(dataset="ohlcv") == []
+    query = OhlcvQueryService(store).get_ohlcv(
+        OhlcvQueryFilter(
+            symbol="TEST",
+            start=datetime(2024, 1, 2, tzinfo=UTC),
+            end=datetime(2024, 1, 3, tzinfo=UTC),
+        )
+    )
+    assert query.row_count == 0

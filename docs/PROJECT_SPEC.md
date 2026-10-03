@@ -4,24 +4,32 @@
 
 Create a Python backend that ingests local market-data files, validates and normalizes them, stores them as Parquet, and exposes query/bar-construction services.
 
+## Implemented scope
+
+Current delivery is local OHLCV **CSV** ingestion, UTC normalization, explicit
+quality reports, partitioned Parquet output, half-open OHLCV queries, hourly/daily
+time bars and a FastAPI demo. Tests in `tests/unit/` and `tests/integration/`
+exercise this path with committed synthetic fixtures. The target scope below
+also includes proposals; it does not describe delivered trade/quote ingestion.
+
 ## Target users
 
 - Quant researchers who need reproducible local datasets.
 - Quant developers building internal market-data tools.
 - Data engineers working with financial time series.
 
-## In scope
+## Target scope and current status
 
 ### Data types
 
-- OHLCV bars.
-- Trades.
+- OHLCV bars (implemented).
+- Trades (planned).
 - Quotes as a later milestone.
 - Order-book snapshots as an optional later milestone.
 
 ### Ingestion
 
-- Local CSV and Parquet input.
+- Local CSV input (implemented); Parquet ingestion is planned. Parquet is currently storage output.
 - Schema mapping from source columns to canonical columns.
 - Timezone normalization to UTC.
 - Idempotent writes.
@@ -31,6 +39,7 @@ Create a Python backend that ingests local market-data files, validates and norm
 - Required columns.
 - Type checks.
 - Missing values.
+- Finite OHLC prices/volume and consistent inclusive low/high bounds.
 - Duplicate keys.
 - Negative or zero prices where invalid.
 - Negative volume.
@@ -49,9 +58,9 @@ Create a Python backend that ingests local market-data files, validates and norm
 - `/datasets`
 - `/symbols`
 - `/ohlcv`
-- `/trades`
+- `/trades` (planned)
 - `/bars/time`
-- `/bars/volume`
+- `/bars/volume` (planned)
 
 ## Out of scope for the first version
 
@@ -75,7 +84,7 @@ volume: float
 source: str
 ```
 
-## Canonical trade schema
+## Proposed canonical trade schema
 
 ```text
 timestamp_utc: datetime[us, UTC]

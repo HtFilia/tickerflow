@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from math import isfinite
 from typing import Any
 
 import polars as pl
@@ -36,6 +37,18 @@ def validate_ohlcv_frame(frame: pl.DataFrame, *, source: str) -> ValidationResul
         pl.any_horizontal([pl.col(column) <= 0 for column in OHLCV_PRICE_COLUMNS])
         .fill_null(False)
         .alias("_issue_non_positive_price"),
+        pl.any_horizontal([~pl.col(column).is_finite() for column in OHLCV_NUMERIC_COLUMNS])
+        .fill_null(False)
+        .alias("_issue_non_finite_numeric_value"),
+        (
+            (pl.col("low") > pl.col("high"))
+            | (pl.col("open") < pl.col("low"))
+            | (pl.col("open") > pl.col("high"))
+            | (pl.col("close") < pl.col("low"))
+            | (pl.col("close") > pl.col("high"))
+        )
+        .fill_null(False)
+        .alias("_issue_invalid_ohlc_range"),
         (pl.col("volume") < 0).fill_null(False).alias("_issue_negative_volume"),
         (pl.struct(["timestamp_utc", "symbol"]).is_duplicated())
         .fill_null(False)
@@ -92,6 +105,14 @@ def _build_issues(frame: pl.DataFrame, issue_columns: list[str]) -> list[Validat
             "missing_numeric_value",
             "A numeric OHLCV field is missing.",
         ),
+        "_issue_non_finite_numeric_value": (
+            "non_finite_numeric_value",
+            "OHLC prices and volume must be finite.",
+        ),
+        "_issue_invalid_ohlc_range": (
+            "invalid_ohlc_range",
+            "Require low <= open, close <= high and low <= high.",
+        ),
         "_issue_negative_volume": ("negative_volume", "Volume must be zero or greater."),
         "_issue_non_monotonic_timestamp": (
             "non_monotonic_timestamp",
@@ -133,4 +154,6 @@ def _json_safe(value: Any) -> object:
     if isinstance(value, datetime):
         utc_value = value.astimezone(UTC)
         return utc_value.isoformat().replace("+00:00", "Z")
+    if isinstance(value, float) and not isfinite(value):
+        return str(value)
     return value
