@@ -61,3 +61,23 @@ Every major feature should include:
 - One example call.
 - One validation or edge-case note.
 - One limitation note.
+
+## OHLCV rejection policy
+
+The existing seven-row dirty fixture returns one valid row and six quarantined
+rows, zero repairs/drops. Its report counts are `duplicate_key: 2`,
+`invalid_timestamp: 1`, `negative_volume: 1`, `non_monotonic_timestamp: 1`,
+`non_positive_price: 1`. The [unit regression](../tests/unit/test_ohlcv_ingestion_validation.py)
+and [seed → query demo](DEMO.md) make those decisions inspectable.
+
+All OHLC prices must be finite and strictly positive; volume must be finite
+and nonnegative (zero is valid). Require `low <= high` and both open and close
+inside the inclusive low/high range. No invalid values are repaired.
+`non_finite_numeric_value` and `invalid_ohlc_range` identify these failures.
+A row can contribute to multiple issue counts but is quarantined once. Examples
+represent NaN/infinities as strings so reports remain valid JSON.
+
+The three-row `tests/fixtures/ohlcv_invalid.csv` regression yields zero valid
+rows: two non-finite issues and one range issue. Unit boundary cases cover NaN,
+both infinity signs, flat OHLC and zero volume. Integration tests verify rejected
+rows cannot reach Parquet or queries through the ingestion service.

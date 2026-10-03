@@ -6,6 +6,23 @@
 
 TickerFlow is a Python backend that turns local market CSVs into validated, queryable API data.
 
+## Start reviewing here
+
+Problem: make local OHLCV data quality decisions visible before data is queryable.
+
+- Workflow: CSV → canonical UTC frame → validation report → partitioned Parquet
+  → half-open queries → hourly/daily time bars → FastAPI demo.
+- Hard decision: quarantine invalid rows without silent repair.
+  [Quality policy and the invalid-OHLC regression](docs/QUALITY_AND_VALIDATION.md).
+- Validation: [dirty fixture report tests](tests/unit/test_ohlcv_ingestion_validation.py)
+  and [ingestion/storage/query regressions](tests/integration/test_ohlcv_storage_query.py).
+- Quick run: `uv sync --extra dev && uv run pytest`; then follow the complete
+  [seed → query demonstration](docs/DEMO.md).
+- Limits: local filesystem and one writer; identical-key repeat ingestion is
+  idempotent, but does not establish concurrent-write safety. Writes directly replace
+  partitions; no atomic crash recovery or multi-partition transactions are promised.
+  Trades/quotes and tick/volume/dollar bars remain planned.
+
 ## Use case
 
 Market-data pipelines need deterministic ingestion, explicit schemas, visible
@@ -13,15 +30,20 @@ quality decisions, durable storage, and stable query boundaries. TickerFlow
 provides that local workflow for financial time series, from CSV normalization
 through Parquet storage and feature-ready time bars.
 
-## Core capabilities
+## Implemented capabilities
 
-- Ingest synthetic or local OHLCV/trade/quote files.
-- Normalize schemas and timestamps.
-- Validate quality issues such as duplicates, missing values, negative prices, non-monotonic timestamps, and invalid volumes.
-- Store normalized data as partitioned Parquet.
-- Query symbol/date/frequency slices through Python services and FastAPI endpoints.
-- Build time bars, tick bars, volume bars, and dollar bars.
-- Use Polars for tabular transformations and DuckDB for local analytical queries.
+- Ingest local OHLCV CSV files with explicit schemas and configuration.
+- Normalize timestamps to UTC and report data-quality issues.
+- Store valid OHLCV rows as partitioned Parquet.
+- Query datasets by symbol and half-open date range through Python and FastAPI.
+- Build hourly and daily time bars with explicit interval boundaries.
+- Explore the local workflow through the `/demo` page.
+
+## Planned extensions
+
+- Trade and quote ingestion.
+- Tick, volume, and dollar bars.
+- Reproducible performance benchmarks on larger datasets.
 
 ## Technology
 
@@ -46,7 +68,7 @@ through Parquet storage and feature-ready time bars.
 3. Implement local CSV ingestion with validation reports.
 4. Store normalized data as partitioned Parquet.
 5. Add query service and FastAPI endpoint.
-6. Implement time bars and volume bars.
+6. Implement time bars (done); volume bars remain planned.
 7. Add benchmarks and quality-report examples.
 
 ## Current vertical slice
@@ -84,7 +106,7 @@ volume: float
 source: string
 ```
 
-Prices are unadjusted fixture values in arbitrary currency units. Volume is a non-negative numeric quantity. Corporate actions and live data sources are intentionally out of scope.
+Prices are unadjusted fixture values in arbitrary currency units. OHLC prices must be finite, positive, and consistent with low/high bounds. Volume is a finite non-negative numeric quantity. Corporate actions and live data sources are intentionally out of scope.
 
 ### Local development
 
