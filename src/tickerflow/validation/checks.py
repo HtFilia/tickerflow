@@ -18,9 +18,16 @@ _ISSUE_PREFIX = "_issue_"
 
 
 @dataclass(frozen=True)
+class RowDecision:
+    row_id: int
+    rule_codes: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class ValidationResult:
     valid_frame: pl.DataFrame
     report: ValidationReport
+    row_decisions: tuple[RowDecision, ...] = ()
 
 
 def validate_ohlcv_frame(frame: pl.DataFrame, *, source: str) -> ValidationResult:
@@ -77,7 +84,18 @@ def validate_ohlcv_frame(frame: pl.DataFrame, *, source: str) -> ValidationResul
         dropped_rows=0,
         issues=issues,
     )
-    return ValidationResult(valid_frame=valid_frame, report=report)
+    decisions = tuple(
+        RowDecision(
+            row_id=int(row["_row_number"]),
+            rule_codes=tuple(
+                column.removeprefix(_ISSUE_PREFIX)
+                for column in sorted(issue_columns)
+                if row[column]
+            ),
+        )
+        for row in checked.select(["_row_number", *issue_columns]).to_dicts()
+    )
+    return ValidationResult(valid_frame=valid_frame, report=report, row_decisions=decisions)
 
 
 def _require_columns(frame: pl.DataFrame, columns: list[str]) -> None:

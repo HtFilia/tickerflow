@@ -164,3 +164,29 @@ Set `TICKERFLOW_DATA_DIR` to writable state outside the release (the VPS
 manifest uses `/var/lib/homelab/tickerflow/data`). Demo input remains synthetic.
 Public DNS and privileged host setup require separate publication; this README
 does not claim that the prepared VPS demo is already live.
+
+## Market-data investigation demo
+
+The main `/demo` uses bounded, committed cases through `GET /demo/cases` and
+`POST /demo/run`. Each run keeps original string cells, normalized values and
+actual row-level validation decisions, writes accepted rows to a request-local
+Parquet store, queries with DuckDB and traces query rows into hourly/daily bars.
+Temporary files are cleaned after the request; the shared persistent dataset is
+not altered. The legacy `/demo/seed` and data/query APIs remain compatible.
+
+Accepted + quarantined counts reconcile to the same input. Issue counts can
+overlap. Duplicate pairs are both quarantined. Invalid original values remain
+inspectable even when normalization produces null/non-finite values; response
+JSON uses safe nulls for non-finite normalized cells. Cases are synthetic,
+unadjusted OHLCV, UTC microseconds, currency-unit prices and synthetic volume.
+
+Bars aggregate only the selected query's observations, use half-open UTC
+intervals and do not fill gaps. Clipped edge intervals are marked. Exports contain
+actual report/query/bar data and fixture hashes. Repeating a run demonstrates
+canonical result reproducibility, not byte-identical Parquet files. No upload or
+arbitrary SQL endpoint is exposed. The production wheel includes fixtures/assets.
+Set `DEMO_BUILD_REVISION` to the actual build SHA or accept the honest `unknown`.
+
+Run browser checks with `node tests/browser/demo.cjs`, Playwright available and
+`TICKERFLOW_DEMO_URL` pointing at a local server. Hand-checked case expectations
+live in `tests/fixtures/demo_expected.json`.
