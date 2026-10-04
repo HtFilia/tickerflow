@@ -143,7 +143,7 @@ def _render_demo_page() -> str:
     .bars { display: grid; gap: 10px; }
     .bar-row {
       display: grid;
-      grid-template-columns: 108px minmax(0, 1fr) 68px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 90px;
       gap: 10px;
       align-items: center;
     }
@@ -177,26 +177,37 @@ def _render_demo_page() -> str:
         <div class="status" id="status">Preparing deterministic demo data.</div>
       </div>
       <div class="actions">
+        <a href="https://lucaslebihan.dev/en/">Portfolio</a>
+        <a href="https://github.com/HtFilia/tickerflow/blob/main/src/tickerflow/validation/checks.py">
+          Validation source</a>
         <button class="button" id="refresh" type="button">Refresh demo data</button>
         <button class="button secondary" id="docs" type="button">Open API docs</button>
       </div>
     </section>
 
     <section class="grid metrics" aria-label="TickerFlow metrics">
-      <div class="panel metric"><strong id="dataset-count">0</strong><span>Datasets</span></div>
-      <div class="panel metric"><strong id="symbol-count">0</strong><span>Symbols</span></div>
-      <div class="panel metric"><strong id="valid-rows">0</strong><span>Valid rows</span></div>
-      <div class="panel metric">
-        <strong id="dirty-rows">0</strong><span>Quarantined rows</span>
+      <div class="panel metric"><strong id="dataset-count">0</strong><span>Datasets</span>
       </div>
-      <div class="panel metric"><strong id="bar-count">0</strong><span>Hourly bars</span></div>
+      <div class="panel metric"><strong id="symbol-count">0</strong><span>Symbols</span>
+      </div>
+      <div class="panel metric"><strong id="valid-rows">0</strong>
+        <span>Clean fixture: 5 input rows, accepted</span>
+      </div>
+      <div class="panel metric">
+        <strong id="dirty-rows">0</strong>
+        <span>Separate dirty fixture: 7 input rows, quarantined</span>
+      </div>
+      <div class="panel metric"><strong id="bar-count">0</strong><span>Hourly bars</span>
+      </div>
     </section>
 
     <section class="grid main">
       <div class="panel">
-        <h2>Hourly AAPL Bars</h2>
+        <h2>Volume by hourly AAPL bar</h2>
         <div class="bars" id="bars"></div>
-        <p class="footnote">Intervals are half-open: start included, end excluded.</p>
+        <p class="footnote">Width and value show volume (synthetic units).
+          Intervals are half-open: start included, end excluded. 
+          Prices are synthetic currency units, unadjusted.</p>
       </div>
       <div class="panel">
         <h2>Quality report</h2>
@@ -224,7 +235,7 @@ def _render_demo_page() -> str:
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
       return response.json();
     };
-    const formatTime = (value) => value.slice(11, 16);
+    const formatTime = (value) => `${value.slice(0, 10)} ${value.slice(11, 16)} UTC`;
 
     async function loadDemo() {
       statusNode.textContent = 'Loading demo data from committed synthetic fixtures.';
@@ -242,16 +253,20 @@ def _render_demo_page() -> str:
       setText('bar-count', bars.metadata.row_count);
 
       document.getElementById('catalog').innerHTML = [
-        `<div class="row"><span>Dataset</span><span class="badge">${seed.dataset}</span></div>`,
+        `<div class="row"><span>Dataset</span><span class="badge">${seed.dataset}</span>
+      </div>`,
         `<div class="row"><span>Symbols</span><span class="badge green">`
-          + `${symbols.symbols.join(', ')}</span></div>`,
+          + `${symbols.symbols.join(', ')}</span>
+      </div>`,
         `<div class="row"><span>Parquet partitions</span><span class="badge amber">`
-          + `${seed.write_result.partitions_written}</span></div>`
+          + `${seed.write_result.partitions_written}</span>
+      </div>`
       ].join('');
 
       document.getElementById('quality').innerHTML = seed.dirty_report.issues.map((issue) =>
         `<div class="row"><span>${issue.code.replaceAll('_', ' ')}</span>`
-          + `<span class="badge red">${issue.count}</span></div>`
+          + `<span class="badge red">${issue.count}</span>
+      </div>`
       ).join('');
 
       const maxVolume = Math.max(...bars.data.map((row) => row.volume));
@@ -259,7 +274,7 @@ def _render_demo_page() -> str:
         const width = Math.max(5, Math.round((row.volume / maxVolume) * 100));
         return `<div class="bar-row"><span>${formatTime(row.bar_start_utc)}</span>`
           + `<div class="bar-track"><div class="bar-fill" style="width:${width}%">`
-          + `</div></div><strong>${row.close.toFixed(1)}</strong></div>`;
+          + `</div></div><strong>${row.volume.toFixed(0)} units</strong></div>`;
       }).join('');
 
       document.getElementById('ohlcv').innerHTML = ohlcv.data.map((row) =>
