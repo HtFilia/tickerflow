@@ -152,3 +152,15 @@ curl "http://127.0.0.1:8000/bars/time?symbol=AAPL&start=2024-01-02T14:00:00Z&end
 By default, the API reads from `.tickerflow`. Set `TICKERFLOW_DATA_DIR` to point at another local Parquet root.
 
 The deterministic demo script lives in `docs/DEMO.md`.
+
+## Native homelab deployment
+
+The prepared homelab manifest uses `sudo homelab project deploy tickerflow`,
+running the repository quality gate before activating an immutable release.
+Uvicorn is a runtime dependency, retained by production-only
+`uv sync --frozen --no-extra dev --no-editable`. The API binds loopback behind
+Caddy; `/health` checks readiness and the existing root redirects to `/demo`.
+Set `TICKERFLOW_DATA_DIR` to writable state outside the release (the VPS
+manifest uses `/var/lib/homelab/tickerflow/data`). Demo input remains synthetic.
+Public DNS and privileged host setup require separate publication; this README
+does not claim that the prepared VPS demo is already live.
