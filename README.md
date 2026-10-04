@@ -13,15 +13,20 @@ quality decisions, durable storage, and stable query boundaries. TickerFlow
 provides that local workflow for financial time series, from CSV normalization
 through Parquet storage and feature-ready time bars.
 
-## Core capabilities
+## Implemented capabilities
 
-- Ingest synthetic or local OHLCV/trade/quote files.
-- Normalize schemas and timestamps.
-- Validate quality issues such as duplicates, missing values, negative prices, non-monotonic timestamps, and invalid volumes.
-- Store normalized data as partitioned Parquet.
-- Query symbol/date/frequency slices through Python services and FastAPI endpoints.
-- Build time bars, tick bars, volume bars, and dollar bars.
-- Use Polars for tabular transformations and DuckDB for local analytical queries.
+- Ingest local OHLCV CSV files with explicit schemas and configuration.
+- Normalize timestamps to UTC and report data-quality issues.
+- Store valid OHLCV rows as partitioned Parquet.
+- Query datasets by symbol and half-open date range through Python and FastAPI.
+- Build hourly and daily time bars with explicit interval boundaries.
+- Explore the local workflow through the `/demo` page.
+
+## Planned extensions
+
+- Trade and quote ingestion.
+- Tick, volume, and dollar bars.
+- Reproducible performance benchmarks on larger datasets.
 
 ## Technology
 
