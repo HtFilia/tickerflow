@@ -171,8 +171,11 @@ def test_demo_page_serves_market_data_ui_shell(tmp_path: Path) -> None:
     assert response.headers["content-type"].startswith("text/html")
     assert "TickerFlow" in response.text
     assert "demo-app" in response.text
-    assert "/demo/seed" in response.text
-    assert "Quality report" in response.text
+    assert "/demo-assets/demo.js" in response.text
+    script = asyncio.run(_get(create_app(data_root=tmp_path), "/demo-assets/demo.js"))
+    assert script.status_code == 200
+    assert "/demo/run" in script.text
+    assert "Inspect validation decisions" in response.text
 
 
 def test_demo_seed_endpoint_populates_catalog_and_quality_summary(tmp_path: Path) -> None:

@@ -1,0 +1,6 @@
+{
+  "duplicates": {"input": 8, "accepted": 6, "quarantined": 2, "aapl_hourly_contributors": [[1], [4], [7, 8]]},
+  "ranges": {"input": 7, "accepted": 4, "quarantined": 3, "aapl_hourly_contributors": [[1], [5]]},
+  "timestamps": {"input": 7, "accepted": 4, "quarantined": 3, "aapl_hourly_contributors": [[1], [2], [5]]},
+  "boundaries": {"input": 6, "accepted": 6, "quarantined": 0, "aapl_hourly_contributors": [[1], [2, 3], [4], [5]]}
+}
