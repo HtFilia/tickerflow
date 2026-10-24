@@ -6,6 +6,8 @@
 
 TickerFlow is a Python backend that turns local market CSVs into validated, queryable API data.
 
+**[Open the live demo →](https://tickerflow.lucaslebihan.dev/demo)** (synthetic OHLCV fixtures)
+
 ## Start reviewing here
 
 Problem: make local OHLCV data quality decisions visible before data is queryable.
