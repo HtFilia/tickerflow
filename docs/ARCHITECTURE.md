@@ -16,6 +16,7 @@ api/
   routes_bars.py
   routes_demo.py
   schemas.py
+  static/                # demo page (HTML, CSS, JS)
 
 core/
   schemas.py             # canonical column definitions
@@ -49,7 +50,11 @@ services/
   ingestion_service.py
   query_service.py
   bar_service.py
+  case_service.py
   demo_service.py
+
+demo/
+  fixtures/              # synthetic CSV cases served by /demo
 ```
 
 ## Dependency direction

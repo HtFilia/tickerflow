@@ -65,13 +65,14 @@ through Parquet storage and feature-ready time bars.
 
 ## First milestones
 
-1. Bootstrap Python package, CI, linting, typing, and tests.
-2. Define canonical schemas for OHLCV and trades.
-3. Implement local CSV ingestion with validation reports.
-4. Store normalized data as partitioned Parquet.
-5. Add query service and FastAPI endpoint.
-6. Implement time bars (done); volume bars remain planned.
-7. Add benchmarks and quality-report examples.
+1. Bootstrap Python package, CI, linting, typing, and tests (done).
+2. Define canonical schemas for OHLCV (done) and trades (planned).
+3. Implement local CSV ingestion with validation reports (done).
+4. Store normalized data as partitioned Parquet (done).
+5. Add query service and FastAPI endpoint (done).
+6. Implement time bars (done); volume and dollar bars remain planned.
+7. Add benchmarks on larger datasets (planned); quality-report examples ship as
+   the demo cases.
 
 ## Current vertical slice
 
@@ -158,14 +159,14 @@ The deterministic demo script lives in `docs/DEMO.md`.
 ## Native homelab deployment
 
 The prepared homelab manifest uses `sudo homelab project deploy tickerflow`,
-running the repository quality gate before activating an immutable release.
+running the repository quality gate before activating an immutable release;
+`homelab` is the author's private server tooling, not part of this repository.
 Uvicorn is a runtime dependency, retained by production-only
 `uv sync --frozen --no-extra dev --no-editable`. The API binds loopback behind
 Caddy; `/health` checks readiness and the existing root redirects to `/demo`.
 Set `TICKERFLOW_DATA_DIR` to writable state outside the release (the VPS
 manifest uses `/var/lib/homelab/tickerflow/data`). Demo input remains synthetic.
-Public DNS and privileged host setup require separate publication; this README
-does not claim that the prepared VPS demo is already live.
+The demo is published at <https://tickerflow.lucaslebihan.dev/demo>.
 
 ## Market-data investigation demo
 
