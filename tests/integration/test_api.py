@@ -184,6 +184,22 @@ def test_demo_page_serves_market_data_ui_shell(tmp_path: Path) -> None:
     assert preview.headers["content-type"] == "image/png"
 
 
+def test_demo_names_its_author_and_carries_the_portfolio_favicon(tmp_path: Path) -> None:
+    app = create_app(data_root=tmp_path)
+    page = asyncio.run(_get(app, "/demo")).text
+
+    assert 'href="https://lucaslebihan.dev/en/?ref=tickerflow"' in page
+    assert 'href="https://lucaslebihan.dev/cv-en.pdf"' in page
+    assert 'href="mailto:contact@lucaslebihan.dev?subject=TickerFlow%20demo"' in page
+    assert 'rel="icon" href="/demo-assets/favicon.svg"' in page
+    favicon = asyncio.run(_get(app, "/demo-assets/favicon.svg"))
+    assert favicon.status_code == 200
+    assert favicon.headers["content-type"].startswith("image/svg+xml")
+    docs = asyncio.run(_get(app, "/docs")).text
+    assert "/demo-assets/favicon.svg" in docs
+    assert "fastapi.tiangolo.com/img/favicon" not in docs
+
+
 def test_demo_seed_endpoint_populates_catalog_and_quality_summary(tmp_path: Path) -> None:
     app = create_app(data_root=tmp_path)
 

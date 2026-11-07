@@ -1,6 +1,6 @@
 # TickerFlow
 
-![Project overview — Lucas Lebihan, Quantitative Engineer](docs/assets/project-header.png)
+![TickerFlow — Market-data ingestion, validation and time bars. Personal project by Lucas Lebihan, Quantitative Engineer / Quant Developer](docs/assets/project-header.png)
 
 [![CI](https://github.com/HtFilia/tickerflow/actions/workflows/ci.yml/badge.svg)](https://github.com/HtFilia/tickerflow/actions/workflows/ci.yml)
 

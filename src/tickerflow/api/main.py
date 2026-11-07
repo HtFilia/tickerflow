@@ -4,7 +4,8 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from tickerflow.api.routes_bars import build_bars_router
 from tickerflow.api.routes_data import build_data_router
@@ -23,11 +24,22 @@ def create_app(data_root: Path | None = None) -> FastAPI:
     bar_service = BarService(query_service)
     demo_service = DemoService(store)
 
+    # The API page carries the portfolio's favicon instead of FastAPI's.
     app = FastAPI(
         title="TickerFlow",
         version="0.1.0",
         description="Turn local market CSVs into validated, queryable API data.",
+        docs_url=None,
     )
+
+    @app.get("/docs", include_in_schema=False)
+    def docs() -> HTMLResponse:
+        return get_swagger_ui_html(
+            openapi_url=app.openapi_url or "/openapi.json",
+            title="TickerFlow - Swagger UI",
+            swagger_favicon_url="/demo-assets/favicon.svg",
+        )
+
     app.state.store = store
     app.state.query_service = query_service
     app.state.bar_service = bar_service

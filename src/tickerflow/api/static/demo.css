@@ -1,15 +1,17 @@
 
     :root {
+      /* Paper, ink and sage of lucaslebihan.dev (webfolio brand/identity.json, light theme), so
+         the demo reads as the portfolio author's work. Status colours keep their meaning. */
       color-scheme: light;
-      --ink: #17202a;
-      --muted: #5e6b78;
-      --line: #d8e0e7;
-      --panel: #ffffff;
-      --page: #f3f6f8;
-      --blue: #1769aa;
-      --green: #16845b;
-      --amber: #b76619;
-      --red: #b3373c;
+      --ink: #2a2620;
+      --muted: #5e5549;
+      --line: #d5cbba;
+      --panel: #faf7f0;
+      --page: #f3eee4;
+      --blue: #3f5f8a;
+      --green: #385a41;
+      --amber: #8b582f;
+      --red: #a04a3b;
     }
     * { box-sizing: border-box; }
     body {
@@ -35,7 +37,7 @@
       padding-bottom: 18px;
       border-bottom: 1px solid var(--line);
     }
-    h1 { margin: 0; font-size: 30px; line-height: 1.1; letter-spacing: 0; }
+    h1 { margin: 0; font-family: "Source Serif 4", "Source Serif Pro", Georgia, "Times New Roman", serif; font-weight: 600; font-size: 30px; line-height: 1.1; letter-spacing: 0; }
     .subtitle { margin: 8px 0 0; color: var(--muted); max-width: 680px; }
     .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
     .button {
@@ -74,25 +76,25 @@
       justify-content: space-between;
       gap: 12px;
       padding: 8px 0;
-      border-top: 1px solid #edf1f4;
+      border-top: 1px solid #eae3d6;
     }
     .row:first-child { border-top: 0; }
     .badge {
       border-radius: 999px;
       padding: 4px 9px;
       font-size: 12px;
-      background: #e8f2fb;
+      background: #e4e9f0;
       color: var(--blue);
       white-space: nowrap;
     }
-    .badge.green { background: #e8f6ef; color: var(--green); }
-    .badge.amber { background: #fff2df; color: var(--amber); }
-    .badge.red { background: #fdecee; color: var(--red); }
+    .badge.green { background: #d9e1ce; color: var(--green); }
+    .badge.amber { background: #f3e6d6; color: var(--amber); }
+    .badge.red { background: #f5e1dc; color: var(--red); }
     table { width: 100%; border-collapse: collapse; table-layout: fixed; }
     th,
     td {
       padding: 9px 8px;
-      border-bottom: 1px solid #edf1f4;
+      border-bottom: 1px solid #eae3d6;
       text-align: left;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -106,7 +108,7 @@
       gap: 10px;
       align-items: center;
     }
-    .bar-track { height: 14px; border-radius: 999px; background: #e7edf2; overflow: hidden; }
+    .bar-track { height: 14px; border-radius: 999px; background: #eae3d6; overflow: hidden; }
     .bar-fill {
       height: 100%;
       border-radius: 999px;
@@ -121,6 +123,15 @@
       .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       h1 { font-size: 26px; }
     }
-  nav {line-height:1.8} a {color:#145e98}.question {font-size:26px;margin:24px 0 8px}.case-controls {margin-top:20px;display:flex;gap:12px;align-items:end;flex-wrap:wrap}.case-controls p,.case-controls #status {width:100%;margin:0}
-label {display:grid;gap:6px;font-weight:600;font-size:13px}select,input{padding:10px;border:1px solid #9caebb;border-radius:5px;min-width:0;width:100%}label input{font-weight:400}button{font:inherit}button:disabled{opacity:.55;cursor:default}.metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.main{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.panel {margin-top:0}.explorer,.evidence{margin-top:18px} .table-wrap{overflow:auto;margin-top:14px} table{table-layout:auto;min-width:500px}th,td{overflow:visible;text-overflow:clip;white-space:nowrap}#rowDetails td{white-space:normal;overflow-wrap:anywhere}#rowDetails{min-width:0}#rowDetails th,#rowDetails td{padding:7px 5px}.issue-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.issue-buttons button{padding:8px;border:1px solid #b3373c;border-radius:5px;background:#fff6f6;color:#962c32;cursor:pointer}.issue-buttons button[aria-pressed=true]{background:#b3373c;color:white}.inspect{padding:7px;cursor:pointer;border:1px solid #1769aa;color:#145e98;background:white;border-radius:4px}.filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.bar-button{display:grid;gap:8px;text-align:left;width:100%;padding:12px;cursor:pointer;border:1px solid #b7c8d5;background:#fff;border-radius:6px}.bar-button[aria-pressed=true]{border-color:#1769aa;background:#edf6fd}.bar-button span{white-space:normal} .bar-meta{font-size:12px;color:#536674}#identity{overflow-wrap:anywhere;font-size:12px}#queryError{color:#a22c32}:focus-visible{outline:3px solid #1769aa;outline-offset:3px}
+  nav {line-height:1.8} a {color:#385a41}.question {font-size:26px;margin:24px 0 8px}.case-controls {margin-top:20px;display:flex;gap:12px;align-items:end;flex-wrap:wrap}.case-controls p,.case-controls #status {width:100%;margin:0}
+label {display:grid;gap:6px;font-weight:600;font-size:13px}select,input{padding:10px;border:1px solid #857967;border-radius:5px;min-width:0;width:100%}label input{font-weight:400}button{font:inherit}button:disabled{opacity:.55;cursor:default}.metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.main{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.panel {margin-top:0}.explorer,.evidence{margin-top:18px} .table-wrap{overflow:auto;margin-top:14px} table{table-layout:auto;min-width:500px}th,td{overflow:visible;text-overflow:clip;white-space:nowrap}#rowDetails td{white-space:normal;overflow-wrap:anywhere}#rowDetails{min-width:0}#rowDetails th,#rowDetails td{padding:7px 5px}.issue-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.issue-buttons button{padding:8px;border:1px solid #a04a3b;border-radius:5px;background:#f8ebe7;color:#8f3f32;cursor:pointer}.issue-buttons button[aria-pressed=true]{background:#a04a3b;color:white}.inspect{padding:7px;cursor:pointer;border:1px solid #3f5f8a;color:#385a41;background:white;border-radius:4px}.filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.bar-button{display:grid;gap:8px;text-align:left;width:100%;padding:12px;cursor:pointer;border:1px solid #d5cbba;background:#fffdf8;border-radius:6px}.bar-button[aria-pressed=true]{border-color:#3f5f8a;background:#e4e9f0}.bar-button span{white-space:normal} .bar-meta{font-size:12px;color:#5e5549}#identity{overflow-wrap:anywhere;font-size:12px}#queryError{color:#8f3f32}:focus-visible{outline:3px solid #3f5f8a;outline-offset:3px}
 @media(max-width:820px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.main,.filters{grid-template-columns:1fr}.question{font-size:23px}.case-controls{align-items:stretch}.case-controls label{width:100%}.metric strong{font-size:24px}}
+
+/* The author bar: who built the demo and how to reach him, on every screen (2026-11-07). */
+.author-bar {display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 16px;padding:8px max(16px, calc((100% - 1180px) / 2));background:#1c1914;color:#f2e9d8;font-size:13px;line-height:1.5}
+.author-bar a {color:inherit;text-decoration:none}
+.author-bar a:hover,.author-bar a:focus-visible {text-decoration:underline;text-underline-offset:3px}
+.author-bar .author {font-weight:600}
+.author-bar .author span {color:#c2b59f;font-weight:400}
+.author-bar nav {display:flex;flex-wrap:wrap;gap:2px 14px;line-height:1.5}
+.author-bar nav a:last-child {color:#a9c69a;font-weight:600}
